@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
  *
  * @author jyq
  * @email 1843309310@qq.com
- * @date 2023-04-30 17:59:42
+ * @date 2023-05-01 18:30:28
  */
 @Data
 @Accessors(chain = true)
@@ -22,7 +22,7 @@ public class CategoryBrandRelationEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 *
+	 * 
 	 */
 	@TableId
 	private Long id;
@@ -35,11 +35,11 @@ public class CategoryBrandRelationEntity implements Serializable {
 	 */
 	private Long catelogId;
 	/**
-	 *
+	 * 
 	 */
 	private String brandName;
 	/**
-	 *
+	 * 
 	 */
 	private String catelogName;
 

@@ -3,8 +3,6 @@ package com.xxr.gulimall.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
-import com.xxr.common.utils.PageUtils;
-import com.xxr.common.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.xxr.gulimall.product.entity.CategoryBrandRelationEntity;
 import com.xxr.gulimall.product.service.CategoryBrandRelationService;
+import com.xxr.common.utils.PageUtils;
+import com.xxr.common.utils.R;
 
 
 
@@ -22,7 +22,7 @@ import com.xxr.gulimall.product.service.CategoryBrandRelationService;
  *
  * @author jyq
  * @email 1843309310@qq.com
- * @date 2023-04-30 17:59:42
+ * @date 2023-05-01 18:30:28
  */
 @RestController
 @RequestMapping("product/categorybrandrelation")
