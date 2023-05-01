@@ -30,6 +30,10 @@ public class CouponController {
     @Autowired
     private CouponService couponService;
 
+    @RequestMapping("/member/list")
+    public R membercoupons(){
+        return R.ok().put("win",1);
+    }
     /**
      * 列表
      */
