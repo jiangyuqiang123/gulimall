@@ -3,7 +3,7 @@
 
 <mapper namespace="com.xxr.gulimall.product.dao.CategoryDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.xxr.gulimall.product.entity.CategoryEntity" id="categoryMap">
         <result property="catId" column="cat_id"/>
         <result property="name" column="name"/>
@@ -14,7 +14,15 @@
         <result property="icon" column="icon"/>
         <result property="productUnit" column="product_unit"/>
         <result property="productCount" column="product_count"/>
+        <collection property="children" ofType="com.xxr.gulimall.product.entity.CategoryEntity" select="selectChildrenTree" column="cat_id"
+                    javaType="java.util.ArrayList"/>
     </resultMap>
+    <select id="selectTree" resultMap="categoryMap">
+select * from pms_category c where c.parent_cid=0 order by sort
+    </select>
+    <select id="selectChildrenTree" resultMap="categoryMap">
+select * from pms_category c where c.parent_cid=#{catId} order by sort
+    </select>
 
 
 </mapper>
