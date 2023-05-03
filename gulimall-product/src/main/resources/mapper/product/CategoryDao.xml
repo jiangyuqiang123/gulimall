@@ -18,10 +18,10 @@
                     javaType="java.util.ArrayList"/>
     </resultMap>
     <select id="selectTree" resultMap="categoryMap">
-select * from pms_category c where c.parent_cid=0 order by sort
+select * from pms_category c where c.parent_cid=0 and c.show_status=1 order by sort
     </select>
     <select id="selectChildrenTree" resultMap="categoryMap">
-select * from pms_category c where c.parent_cid=#{catId} order by sort
+select * from pms_category c where c.parent_cid=#{catId}   and c.show_status=1 order by sort
     </select>
 
 
