@@ -6,12 +6,15 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 属性&属性分组关联
- * 
+ *
  * @author jyq
  * @email 1843309310@qq.com
  * @date 2023-05-01 18:30:28
  */
 @Mapper
 public interface AttrAttrgroupRelationDao extends BaseMapper<AttrAttrgroupRelationEntity> {
-	
+
+    String selectGroupIdByAttrId(Long attrId);
+
+    void updateOrSave(Long attrId, Long attrGroupId);
 }

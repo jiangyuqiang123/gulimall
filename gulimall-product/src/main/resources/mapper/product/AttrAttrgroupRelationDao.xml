@@ -10,6 +10,14 @@
         <result property="attrGroupId" column="attr_group_id"/>
         <result property="attrSort" column="attr_sort"/>
     </resultMap>
+    <update id="updateOrSave">
+        insert into pms_attr_attrgroup_relation
+        (attr_id,attr_group_id) values (#{attrId},#{attrGroupId})
+        on duplicate key update attr_group_id=#{attrGroupId}
+    </update>
+    <select id="selectGroupIdByAttrId" resultType="java.lang.String">
+select attr_group_id from pms_attr_attrgroup_relation where attr_id =#{attrId}
+    </select>
 
 
 </mapper>

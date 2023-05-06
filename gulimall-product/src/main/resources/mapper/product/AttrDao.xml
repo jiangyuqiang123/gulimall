@@ -15,7 +15,24 @@
         <result property="enable" column="enable"/>
         <result property="catelogId" column="catelog_id"/>
         <result property="showDesc" column="show_desc"/>
+        <result property="catelogName" column="catelog_name"/>
     </resultMap>
+    <select id="queryBaseAttrPage" resultMap="attrMap">
+        select u.*,t1.name as catelog_name from
+        pms_attr u
+        left join pms_category t1 on u.catelog_id=t1.cat_id
+        where 1=1
+        <if test="catelogId !=null and catelogId !='' and catelogId != 0">
+            and catelog_id=#{catelogId}
+        </if>
+        <if test="s !=null and s !=''">
+            and attr_type=#{s}
+        </if>
+        <if test="key!=null and key!=''">
+            and (attr_id=#{key}or attr_name like concat('%',#{key},'%'))
+        </if>
+
+    </select>
 
 
 </mapper>

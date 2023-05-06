@@ -12,15 +12,19 @@ import com.xxr.gulimall.product.dao.BrandDao;
 import com.xxr.gulimall.product.entity.BrandEntity;
 import com.xxr.gulimall.product.service.BrandService;
 
+import javax.annotation.Resource;
+
 
 @Service("brandService")
 public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> implements BrandService {
-
+    @Resource
+    BrandDao brandDao;
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        IPage<BrandEntity> page = this.page(
+        String key=(String)params.get("key");
+        IPage<BrandEntity> page = brandDao.page(
                 new Query<BrandEntity>().getPage(params),
-                new QueryWrapper<BrandEntity>()
+                key
         );
 
         return new PageUtils(page);

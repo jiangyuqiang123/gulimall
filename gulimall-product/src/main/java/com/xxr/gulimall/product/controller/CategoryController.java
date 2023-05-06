@@ -4,6 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.xxr.gulimall.product.entity.CategoryBrandRelationEntity;
+import com.xxr.gulimall.product.service.CategoryBrandRelationService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +34,8 @@ import com.xxr.common.utils.R;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
-
+    @Autowired
+    CategoryBrandRelationService categoryBrandRelationService;
     /**
      * 列表
      */
@@ -68,7 +73,11 @@ public class CategoryController {
     @RequestMapping("/update")
     public R update(@RequestBody CategoryEntity category){
 		categoryService.updateById(category);
-
+		if(StringUtils.isNotEmpty(category.getName())){
+            CategoryBrandRelationEntity categoryBrandRelationEntity = new CategoryBrandRelationEntity();
+            categoryBrandRelationEntity.setCatelogId(category.getCatId()).setCatelogName(category.getName());
+            categoryBrandRelationService.updateByCatelogId(categoryBrandRelationEntity);
+        }
         return R.ok();
     }
 
