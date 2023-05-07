@@ -10,11 +10,12 @@ spring:
         server-addr: localhost:8848
     gateway:
       routes:
-        - id: test_route
-          uri: https://www.baidu.com
+        - id: member_route
+          uri: lb://gulimall-member
           predicates:
-            - Query=url,baidu
-
+            - Path=/api/member/**
+          filters:
+            - RewritePath=/api/(?<segment>/?.*),/$\{segment}
         - id: product_route
           uri: lb://gulimall-product
           predicates:

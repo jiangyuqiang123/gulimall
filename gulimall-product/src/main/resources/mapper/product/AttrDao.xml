@@ -33,6 +33,19 @@
         </if>
 
     </select>
+    <select id="page" resultType="com.xxr.gulimall.product.entity.AttrEntity">
+        select * from pms_attr where attr_id not in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+        and catelog_id =#{catelogId}
+    </select>
+    <select id="selectBatchId" resultType="com.xxr.gulimall.product.entity.AttrEntity">
+select * from pms_attr where attr_id in
+<foreach collection="list" item="item" open="(" close=")" separator=",">
+    #{item}
+</foreach>
+    </select>
 
 
 </mapper>

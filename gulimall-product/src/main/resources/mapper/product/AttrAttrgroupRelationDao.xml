@@ -15,8 +15,18 @@
         (attr_id,attr_group_id) values (#{attrId},#{attrGroupId})
         on duplicate key update attr_group_id=#{attrGroupId}
     </update>
+    <delete id="removeAttrAttrgroupRelationEntityList">
+        DELETE from pms_attr_attrgroup_relation where
+        <foreach collection="list" item="item" separator="or">
+            attr_id=#{item.attrId} and attr_group_id=#{item.attrGroupId}
+        </foreach>
+    </delete>
     <select id="selectGroupIdByAttrId" resultType="java.lang.String">
 select attr_group_id from pms_attr_attrgroup_relation where attr_id =#{attrId}
+    </select>
+    <select id="selectAttrIdsByAttrgroupId" resultType="java.lang.Long">
+        select attr_id
+from pms_attr_attrgroup_relation where attr_group_id=#{attrgroupId}
     </select>
 
 

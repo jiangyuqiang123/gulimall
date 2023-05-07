@@ -5,6 +5,8 @@ import com.xxr.gulimall.product.entity.CategoryBrandRelationEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * 品牌分类关联
  *
@@ -20,4 +22,6 @@ public interface CategoryBrandRelationDao extends BaseMapper<CategoryBrandRelati
     void updateByBrandId(CategoryBrandRelationEntity categoryBrandRelationEntity);
 
     void updateByCatelogId(CategoryBrandRelationEntity categoryBrandRelationEntity);
+
+    List<CategoryBrandRelationEntity> selectByCatId(String catId);
 }

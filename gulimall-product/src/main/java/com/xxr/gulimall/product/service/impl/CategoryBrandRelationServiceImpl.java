@@ -5,7 +5,10 @@ import com.xxr.gulimall.product.dao.CategoryDao;
 import com.xxr.gulimall.product.entity.BrandEntity;
 import com.xxr.gulimall.product.entity.CategoryEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -27,9 +30,10 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
     BrandDao brandDao;
     @Resource
     CategoryDao categoryDao;
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        String brandId = (String)params.get("brandId");
+        String brandId = (String) params.get("brandId");
         IPage<CategoryBrandRelationEntity> page = categoryBrandRelationDao.page(
                 new Query<CategoryBrandRelationEntity>().getPage(params),
                 brandId
@@ -57,6 +61,13 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
     @Override
     public void updateByCatelogId(CategoryBrandRelationEntity categoryBrandRelationEntity) {
         categoryBrandRelationDao.updateByCatelogId(categoryBrandRelationEntity);
+    }
+
+    @Override
+    public List<CategoryBrandRelationEntity> queryPageCatId(Map<String, Object> params) {
+        String catId = (String) params.get("catId");
+        List<CategoryBrandRelationEntity> result=categoryBrandRelationDao.selectByCatId(catId);
+        return result;
     }
 
 }

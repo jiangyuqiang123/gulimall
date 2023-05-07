@@ -5,11 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.xxr.gulimall.product.entity.CategoryBrandRelationEntity;
 import com.xxr.gulimall.product.service.CategoryBrandRelationService;
@@ -30,7 +26,14 @@ import com.xxr.common.utils.R;
 public class CategoryBrandRelationController {
     @Autowired
     private CategoryBrandRelationService categoryBrandRelationService;
-
+    /**
+     * /product/categorybrandrelation/brands/list
+     */
+    @GetMapping("/brands/list")
+    public R brandsList(@RequestParam Map<String, Object> params){
+        List<CategoryBrandRelationEntity> page= categoryBrandRelationService.queryPageCatId(params);
+        return R.ok().put("data", page);
+    }
     /**
      * 列表
      */

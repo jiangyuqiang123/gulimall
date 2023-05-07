@@ -23,6 +23,10 @@
         and brand_id=#{brandId}
         </if>
     </select>
+    <select id="selectByCatId" resultType="com.xxr.gulimall.product.entity.CategoryBrandRelationEntity">
+        select brand_id,brand_name from pms_category_brand_relation where
+        catelog_id = #{catId}
+    </select>
 
 
 </mapper>

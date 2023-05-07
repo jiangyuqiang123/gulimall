@@ -1,12 +1,19 @@
 package com.xxr.gulimall.product.service.impl;
 
+import com.xxr.gulimall.product.dao.AttrAttrgroupRelationDao;
+import com.xxr.gulimall.product.dao.AttrDao;
 import com.xxr.gulimall.product.dao.CategoryDao;
+import com.xxr.gulimall.product.entity.AttrAttrgroupRelationEntity;
+import com.xxr.gulimall.product.entity.AttrEntity;
 import com.xxr.gulimall.product.entity.CategoryEntity;
+import com.xxr.gulimall.product.vo.AttVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -18,6 +25,8 @@ import com.xxr.common.utils.Query;
 import com.xxr.gulimall.product.dao.AttrGroupDao;
 import com.xxr.gulimall.product.entity.AttrGroupEntity;
 import com.xxr.gulimall.product.service.AttrGroupService;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 
@@ -28,7 +37,10 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
     AttrGroupDao attrGroupDao;
     @Resource
     CategoryDao categoryDao;
-
+    @Resource
+    AttrDao attrDao;
+    @Resource
+    AttrAttrgroupRelationDao attrAttrgroupRelationDao;
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<AttrGroupEntity> page = this.page(
@@ -63,5 +75,42 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
         }
         Collections.reverse(list);
         return list.toArray(new Long[list.size()]);
+    }
+
+    @Override
+    public List<AttVo> selectAttrByAttrgroupId(Long attrgroupId) {
+        List<Long> ids=attrAttrgroupRelationDao.selectAttrIdsByAttrgroupId(attrgroupId);
+        if(CollectionUtils.isEmpty(ids))return null;
+        List<AttrEntity> attrEntities = attrDao.selectBatchId(ids);
+        List<AttVo> result=new ArrayList<>();
+        for (AttrEntity attrEntity : attrEntities) {
+            AttVo attVo = new AttVo();
+            BeanUtils.copyProperties(attrEntity,attVo);
+            result.add(attVo);
+        }
+        return result;
+    }
+
+    @Override
+    public void removeAttrAttrgroupRelationEntityList(List<AttrAttrgroupRelationEntity> list) {
+        attrAttrgroupRelationDao.removeAttrAttrgroupRelationEntityList(list);
+    }
+
+    @Override
+    public PageUtils queryPageNoattr(Map<String, Object> params, Long attrgroupId) {
+        AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(attrgroupId);
+        Long catelogId = attrGroupEntity.getCatelogId();
+        List<AttrAttrgroupRelationEntity> attrAttrgroupRelationEntities = attrAttrgroupRelationDao.selectList(new QueryWrapper<>());
+        List<Long> list=new ArrayList<>();
+        for (AttrAttrgroupRelationEntity attrAttrgroupRelationEntity : attrAttrgroupRelationEntities) {
+            list.add(attrAttrgroupRelationEntity.getAttrId());
+        }
+        IPage<AttrEntity> page = attrDao.page(
+                new Query<AttrEntity>().getPage(params),
+                list,
+                catelogId
+        );
+        PageUtils pageUtils = new PageUtils(page);
+        return pageUtils;
     }
 }
