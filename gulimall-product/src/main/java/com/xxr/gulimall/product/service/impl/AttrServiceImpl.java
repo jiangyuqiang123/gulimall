@@ -76,6 +76,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
             BeanUtils.copyProperties(record, attrRespVo);
             list.add(attrRespVo);
         }
+        //todo
         for (AttrRespVo attrRespVo : list) {
             String groupId = attrAttrgroupRelationDao.selectGroupIdByAttrId(attrRespVo.getAttrId());
             if(StringUtils.isEmpty(groupId)){
@@ -97,7 +98,9 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         AttrRespVo attrRespVo = new AttrRespVo();
         BeanUtils.copyProperties(attrEntity,attrRespVo);
         String groupId = attrAttrgroupRelationDao.selectGroupIdByAttrId(attrEntity.getAttrId());
-        attrRespVo.setAttrGroupId(Long.valueOf(groupId));
+        if(StringUtils.isNotEmpty(groupId)){
+            attrRespVo.setAttrGroupId(Long.valueOf(groupId));
+        }
         //long[]
         Long categoryId = attrRespVo.getCatelogId();
         ArrayList<Long> list = new ArrayList<>();
@@ -122,5 +125,4 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         this.updateById(attrEntity);
         attrAttrgroupRelationDao.updateOrSave(attr.getAttrId(),attr.getAttrGroupId());
     }
-
 }
