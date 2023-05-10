@@ -27,8 +27,8 @@ public class OssController {
 //        LTAI5tHJ5KF544dvpFXNZcPL
 //woGP1C8hOP4hnxQtc8Y3VS1fGIuCZK
         // 云账号AccessKey有所有API访问权限，建议遵循阿里云安全最佳实践，创建并使用RAM子账号进行API访问或日常运维，请登录 https://ram.console.aliyun.com 创建。
-        String accessKeyId = "LTAI5tHJ5KF544dvpFXNZcPL";
-        String accessKeySecret = "woGP1C8hOP4hnxQtc8Y3VS1fGIuCZK";
+        String accessKeyId = "";
+        String accessKeySecret = "";
 
         String bucket = "wolf2w-63"; // 请填写您的 bucketname 。
         String host = "https://" + bucket + "." + endpoint; // host的格式为 bucketname.endpoint
