@@ -2,6 +2,7 @@ package com.xxr.gulimall.product.dao;
 
 import com.xxr.gulimall.product.entity.CategoryEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.xxr.gulimall.product.vo.Catelog2Vo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
