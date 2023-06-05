@@ -23,7 +23,9 @@ select * from pms_category c where c.parent_cid=0 and c.show_status=1 order by s
     <select id="selectChildrenTree" resultMap="categoryMap">
 select * from pms_category c where c.parent_cid=#{catId}   and c.show_status=1 order by sort
     </select>
-
+    <select id="selectList" resultType="com.xxr.gulimall.product.entity.CategoryEntity">
+        select * from pms_category c order by c.cat_id
+    </select>
 
 
 </mapper>

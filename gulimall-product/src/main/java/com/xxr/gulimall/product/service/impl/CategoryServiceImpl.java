@@ -1,13 +1,14 @@
 package com.xxr.gulimall.product.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.xxr.gulimall.product.vo.Catelog2Vo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -27,6 +28,8 @@ import javax.annotation.Resource;
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
     @Resource
     CategoryDao categoryDao;
+    @Resource
+    StringRedisTemplate stringRedisTemplate;
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<CategoryEntity> page = this.page(
@@ -51,11 +54,22 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     }
 
     @Override
-    public Map<String, List<Catelog2Vo>> getCatalogJson() {
+    public Map<String, List<Catelog2Vo>> getCatalogJson(){
+        String catalogjson = stringRedisTemplate.opsForValue().get("catalogjson");
+        if(StringUtils.isNotEmpty(catalogjson)){
+            Map<String, List<Catelog2Vo>> stringListMap = JSON.parseObject(catalogjson, new TypeReference<Map<String, List<Catelog2Vo>>>() {
+            });
+            return stringListMap;
+        }
+        Map<String, List<Catelog2Vo>> catalogJsonFromDB = getCatalogJsonFromDB();
+        stringRedisTemplate.opsForValue().set("catalogjson",JSON.toJSONString(catalogJsonFromDB));
+        return catalogJsonFromDB;
+    }
+    public Map<String, List<Catelog2Vo>> getCatalogJsonFromDB() {
 //        List<CategoryEntity> level1Categorys = this.getLevel1Categorys();
-        List<CategoryEntity> selectList = baseMapper.selectList(null);
+        List<CategoryEntity> selectList = baseMapper.selectList();
         List<CategoryEntity> level1Categorys=getParent_cid(selectList,0l);
-        Map<String, List<Catelog2Vo>> map=new HashMap<>();
+        Map<String, List<Catelog2Vo>> map=new LinkedHashMap<>();
         for (CategoryEntity level1Category : level1Categorys) {
             List<CategoryEntity> categoryEntities2 = getParent_cid(selectList,level1Category.getCatId());
             List<Catelog2Vo> catelog2Vos=new ArrayList<>();

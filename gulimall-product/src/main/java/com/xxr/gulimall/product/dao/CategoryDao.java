@@ -18,4 +18,7 @@ import java.util.List;
 public interface CategoryDao extends BaseMapper<CategoryEntity> {
 
     List<CategoryEntity> selectTree();
+
+    List<CategoryEntity> selectList();
+
 }
