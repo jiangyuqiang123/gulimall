@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -17,7 +18,9 @@ public class DBTest {
     BrandService brandService;
     @Test
     public void test(){
-        List<BrandEntity> r = brandService.list();
-        System.out.println(r);
+        String[] arr=new String[]{"12","33","44"};
+        Stream<String> stream=Stream.of(arr);
+        Stream<Integer> stream2 = stream.map(s -> Integer.parseInt(s));
+        stream2.forEach(s -> System.out.println(s));
     }
 }

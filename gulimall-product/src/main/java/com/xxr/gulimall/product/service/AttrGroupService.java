@@ -5,6 +5,7 @@ import com.xxr.common.utils.PageUtils;
 import com.xxr.gulimall.product.entity.AttrAttrgroupRelationEntity;
 import com.xxr.gulimall.product.entity.AttrGroupEntity;
 import com.xxr.gulimall.product.vo.AttVo;
+import com.xxr.gulimall.product.vo.AttrGroupWithAttrsVo;
 
 import java.util.List;
 import java.util.Map;
@@ -28,5 +29,7 @@ public interface AttrGroupService extends IService<AttrGroupEntity> {
     void removeAttrAttrgroupRelationEntityList(List<AttrAttrgroupRelationEntity> list);
 
     PageUtils queryPageNoattr(Map<String, Object> params, Long attrgroupId);
+
+    List<AttrGroupWithAttrsVo> getAttrGroupWithAttrsByCatelogId(Long catelogId);
 }
 

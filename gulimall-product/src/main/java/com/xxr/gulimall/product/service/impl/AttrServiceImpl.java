@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -26,6 +28,7 @@ import com.xxr.common.utils.Query;
 import com.xxr.gulimall.product.dao.AttrDao;
 import com.xxr.gulimall.product.entity.AttrEntity;
 import com.xxr.gulimall.product.service.AttrService;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 
@@ -124,5 +127,16 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         BeanUtils.copyProperties(attr,attrEntity);
         this.updateById(attrEntity);
         attrAttrgroupRelationDao.updateOrSave(attr.getAttrId(),attr.getAttrGroupId());
+    }
+
+    @Override
+    public List<AttrEntity> getRelationAttr(Long attrGroupId) {
+        List<AttrAttrgroupRelationEntity> attrGroupRelations = attrAttrgroupRelationDao.selectList(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_group_id", attrGroupId));
+        List<Long> collect = attrGroupRelations.stream().map(i -> i.getAttrId()).collect(Collectors.toList());
+        if(CollectionUtils.isEmpty(collect)){
+            return null;
+        }
+        List<AttrEntity> attrEntities = attrDao.selectBatchIds(collect);
+        return attrEntities;
     }
 }

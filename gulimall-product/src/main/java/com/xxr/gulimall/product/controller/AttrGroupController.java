@@ -7,6 +7,7 @@ import java.util.Map;
 import com.xxr.gulimall.product.entity.AttrAttrgroupRelationEntity;
 import com.xxr.gulimall.product.service.AttrAttrgroupRelationService;
 import com.xxr.gulimall.product.vo.AttVo;
+import com.xxr.gulimall.product.vo.AttrGroupWithAttrsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -79,8 +80,15 @@ public class AttrGroupController {
 
         return R.ok().put("page", page);
     }
+    /**
+     * /product/attrgroup/{catelogId}/withattr
+     */
+    @GetMapping(value = "/{catelogId}/withattr")
+    public R getAttrGroupWithAttrs(@PathVariable("catelogId") Long catelogId){
+        List<AttrGroupWithAttrsVo> vos = attrGroupService.getAttrGroupWithAttrsByCatelogId(catelogId);
 
-
+        return R.ok().put("data",vos);
+    }
     /**
      * 信息
      */
