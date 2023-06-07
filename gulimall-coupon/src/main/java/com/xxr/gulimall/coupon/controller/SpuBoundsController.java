@@ -36,7 +36,6 @@ public class SpuBoundsController {
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = spuBoundsService.queryPage(params);
-
         return R.ok().put("page", page);
     }
 
